@@ -1,27 +1,12 @@
-# Template: Single page mapping application using ArcGIS API for JavaScript
+# locate-between-test
 
-This is a starter application for creating a single page map application using the [ArcGIS Maps SDK for JavaScript], which is built using [Vite] and [TypeScript].
+Given a Route ID, direction, and begin and end <abbr title='State Route MilePost'>SRMP</abbr> values, calculates the segment of that route between the two mileposts.
 
-[Vite]: https://vitejs.dev/
-[TypeScript]: https://www.typescriptlang.org/
-[ArcGIS Maps SDK for JavaScript]: https://developers.arcgis.com/javascript/latest/
+## How it works
 
-## Use
+1. Query the [mileposts map service layer] to find the point features matching the input. This will give you the corresponding <abbr title='Accumulated Route Mileage'>ARM</abbr> values. The ARM values are the actual measures.
+2. Using the ARM values, query the LRS routes service layer to get the polyline geometry for that entire route.
+3. Use the [locateBetweenOperator] to find the route segment between the ARM values on the route geometry.
 
-## Create new repo on GitHub
-
-[Click here](https://github.com/WSDOT-GIS/arcgis-2d-spa-template/generate) and fill in the information for your new application.
-
-More information about templates can be found in this [GitHub blog: Generate new repositories with repository templates](https://github.blog/2019-06-06-generate-new-repositories-with-repository-templates/)
-
-## Custom (not hosted on GitHub)
-
-1. Clone this repository to your computer's hard drive.
-2. Remove the remote repository
-
-   ```cmd
-   git remote remove origin
-   ```
-
-3. Update the information in the `package.json` file with your own project's information.
-4. Add your remote using the `git remote` command.
+[locateBetweenOperator]:https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-operators-locateBetweenOperator.html
+[mileposts map service layer]:https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/

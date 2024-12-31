@@ -1,0 +1,8 @@
+{
+	"no-inline-html": {
+        "allowed_elements": [
+            "abbr"
+        ]
+    },
+    "line-length": false
+}

@@ -1,70 +1,40 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "type": "npm",
-      "script": "build",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "icon": {
-        "id": "tools",
-        "color": "terminal.ansiGreen"
-      },
-      "problemMatcher": ["$tsc"],
-      "label": "Build",
-      "detail": "Builds the project for production"
-    },
-    {
-      "type": "npm",
-      "script": "dev",
-      "problemMatcher": ["$tsc-watch"],
-      "icon": {
-        "id": "eye-watch",
-        "color": "terminal.ansiCyan"
-      },
-      "group": "build",
-      "label": "Watch using Vite dev mode",
-      "detail": "vite"
-    },
-    {
-      "type": "npm",
-      "script": "deploy",
-      "label": "Deploy",
-      "detail": "Deploys the page to GitHub Pages of this repository.",
-      "icon": {
-        "id": "github-inverted",
-        "color": "terminal.ansiRed"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": true,
-        "clear": true
-      }
-    },
-    {
-      "type": "npm",
-      "script": "preview",
-      "group": "build",
-      "icon": {
-        "id": "preview",
-        "color": "terminal.ansiGreen"
-      },
-      "problemMatcher": ["$tsc"],
-      "label": "Preview production",
-      "detail": "Perform Vite production build and then preview it."
-    },
-    {
-      "type": "npm",
-      "script": "lint:eslint",
-      "problemMatcher": ["$eslint-compact"],
-      "label": "npm: lint:eslint",
-      "detail": "eslint . --fix"
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "npm: build",
+			"detail": "bun build ./src/index.ts  --outdir ./dist --external @arcgis/core",
+			"type": "npm",
+			"script": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				{
+					"severity": "error",
+					"pattern": [
+						{
+							"regexp": "^error:\\s*(.*)\\n\\s*at (.*):([0-9]+):([0-9]+)$",
+							"message": 0,
+							"file": 1,
+							"line": 2,
+							"column": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: test",
+			"detail": "bun test --coverage --coverage-reporter lcov --bail"
+		}
+	]
 }

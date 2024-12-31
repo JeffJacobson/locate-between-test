@@ -195,3 +195,4 @@ deleteme*
 *.mjs
 
 .gitattributes.new
+__snapshots__

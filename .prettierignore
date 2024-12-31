@@ -1,7 +1,0 @@
-package.json
-package-lock.json
-*.lockb
-.prettierignore
-.eslintrc.json
-tsconfig.json
-tsconfig.*.json
