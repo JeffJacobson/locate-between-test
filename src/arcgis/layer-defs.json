@@ -1,0 +1,17 @@
+[
+  {
+    "layerId": 3,
+    "where": "JURLBL is not NULL",
+    "outFields": "JURLBL"
+  },
+  {
+    "layerId": 5,
+    "where": "CityName is not NULL",
+    "outFields": "CityName"
+  },
+  {
+    "layerId": 2,
+    "where": "LDNM is not NULL",
+    "outFields": "LDNM"
+  }
+]

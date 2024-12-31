@@ -1,0 +1,61 @@
+{
+  "name": "arcgis-2d-spa-template",
+  "version": "0.0.2",
+  "description": "Template for ArcGIS API single page application",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "prepreview": "npm run build",
+    "preview": "vite preview",
+    "prettier": "prettier .",
+    "lint:eslint": "eslint . --fix",
+    "lint:spell": "cspell lint . --relative --no-progress --no-summary --fail-fast",
+    "predeploy": "npm run build && tsc --project tools/tsconfig.json",
+    "deploy": "node tools/deploy.mjs"
+  },
+  "author": {
+    "name": "Put your name here. If you only want to include your name you can replace this JSON object with just your name as a string.",
+    "email": "YourGithubUserName@users.noreply.github.com",
+    "url": "https://example.com/you/can/omit/the/url/if/you/dont/have/a/website"
+  },
+  "contributors": [
+    {
+      "name": "Jeff Jacobson",
+      "email": "JeffJacobson@users.noreply.github.com"
+    }
+  ],
+  "private": true,
+  "license": "Unlicense",
+  "devDependencies": {
+    "@arcgis/core": "^4.30.9",
+    "@esri/arcgis-rest-request": "^4.2.3",
+    "@tsconfig/esm": "^1.0.5",
+    "@tsconfig/node-lts": "^20.1.3",
+    "@types/arcgis-rest-api": "^10.4.8",
+    "@types/gh-pages": "^6.1.0",
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "cspell": "^8.14.4",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8"
+  },
+  "keywords": [
+    "arcgis",
+    "template",
+    "WSDOT",
+    "map",
+    "spa",
+    "single-page-app"
+  ],
+  "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "eslint-config-flat-gitignore": "^0.3.0",
+    "eslint-plugin-jsdoc": "^50.3.0",
+    "typescript-eslint": "^8.8.0"
+  }
+}
