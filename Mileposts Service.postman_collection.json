@@ -106,12 +106,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}/query?f=json&where=AheadBackInd = 'B' AND Direction = '{{direction}}'&outFields=RouteID,Direction,SRMP&returnGeometry=false&returnDistinctValues=true&orderByFields=RouteID,SRMP",
-							"host": [
-								"{{mileposts_svc_url}}"
-							],
-							"path": [
-								"query"
-							],
+							"host": ["{{mileposts_svc_url}}"],
+							"path": ["query"],
 							"query": [
 								{
 									"key": "f",
@@ -153,12 +149,8 @@
 								"header": [],
 								"url": {
 									"raw": "{{mileposts_svc_url}}/query?f=json&where=AheadBackInd = 'B' AND Direction = 'i'&outFields=RouteID,Direction,SRMP&returnGeometry=false&returnDistinctValues=true&orderByFields=RouteID,SRMP",
-									"host": [
-										"{{mileposts_svc_url}}"
-									],
-									"path": [
-										"query"
-									],
+									"host": ["{{mileposts_svc_url}}"],
+									"path": ["query"],
 									"query": [
 										{
 											"key": "f",
@@ -247,12 +239,8 @@
 								"header": [],
 								"url": {
 									"raw": "{{mileposts_svc_url}}/query?f=json&where=AheadBackInd = 'B' AND Direction = '{{direction}}'&outFields=RouteID,Direction,SRMP&returnGeometry=false&returnDistinctValues=true&orderByFields=RouteID,SRMP",
-									"host": [
-										"{{mileposts_svc_url}}"
-									],
-									"path": [
-										"query"
-									],
+									"host": ["{{mileposts_svc_url}}"],
+									"path": ["query"],
 									"query": [
 										{
 											"key": "f",
@@ -344,9 +332,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [
-							""
-						],
+						"exec": [""],
 						"type": "text/javascript",
 						"packages": {}
 					}
@@ -372,9 +358,7 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}query?f=json&where=RouteID = '{{route_id}}' AND SRMP = {{srmp}} AND AheadBackInd = '{{ab}}'&outSR={{outSR}}&outFields=RouteID,ARM,SRMP,AheadBackInd,Direction,Northing,Easting,Longitude,Latitude,Azimuth,LRS_Date",
-					"host": [
-						"{{mileposts_svc_url}}query"
-					],
+					"host": ["{{mileposts_svc_url}}query"],
 					"query": [
 						{
 							"key": "f",
@@ -595,12 +579,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}/query?f=json&where=RouteID = '{{find_srmp_route_id}}' AND SRMP = {{find_srmp_srmp}} AND AheadBackInd = '{{find_srmp_ab}}'&outFields=RouteID,ARM,SRMP,AheadBackInd,Direction,Northing,Easting,Longitude,Latitude,Azimuth,LRS_Date",
-							"host": [
-								"{{mileposts_svc_url}}"
-							],
-							"path": [
-								"query"
-							],
+							"host": ["{{mileposts_svc_url}}"],
+							"path": ["query"],
 							"query": [
 								{
 									"key": "f",
@@ -870,9 +850,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [
-							""
-						],
+						"exec": [""],
 						"type": "text/javascript",
 						"packages": {}
 					}
@@ -936,12 +914,8 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}/query?f=json&returnGeometry=false&returnDistinctValues=true&orderByFields=RelRouteType,Direction DESC&where=1=1&outFields=Direction,RelRouteType",
-					"host": [
-						"{{mileposts_svc_url}}"
-					],
-					"path": [
-						"query"
-					],
+					"host": ["{{mileposts_svc_url}}"],
+					"path": ["query"],
 					"query": [
 						{
 							"key": "f",
@@ -1159,12 +1133,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}/query?f=json&returnGeometry=false&returnDistinctValues=true&orderByFields=RelRouteType,Direction DESC&where=1=1&outFields=Direction,RelRouteType",
-							"host": [
-								"{{mileposts_svc_url}}"
-							],
-							"path": [
-								"query"
-							],
+							"host": ["{{mileposts_svc_url}}"],
+							"path": ["query"],
 							"query": [
 								{
 									"key": "f",
@@ -1901,9 +1871,7 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}query?geometry={{x}},{{y}}&geometryType=esriGeometryPoint&inSR={{inSR}}&distance={{distance}}&units=esriSRUnit_{{distance_unit}}&outFields=RouteID,ARM,SRMP,Direction,Longitude,Latitude,StateRouteNumber,RelRouteType,RelRouteQual,AheadBackInd,LRS_Date&returnGeometry=true&f=json&orderByFields=Direction DESC&outSR={{outSR}}",
-					"host": [
-						"{{mileposts_svc_url}}query"
-					],
+					"host": ["{{mileposts_svc_url}}query"],
 					"query": [
 						{
 							"key": "geometry",
@@ -1967,9 +1935,7 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}query?geometry={{nearest_milepost_x}},{{nearest_milespost_y}}&geometryType=esriGeometry{{mileposts_geometry_type}}&inSR={{mileposts_inSR}}&distance={{mileposts_distance}}&units=esriSRUnit_{{mileposts_distance_unit}}&outFields={{mileposts_outFields}}&returnGeometry={{mileposts_returnGeometry}}&returnM=true&f=json&orderByFields=Direction DESC&outSR={{mileposts_outSR}}",
-							"host": [
-								"{{mileposts_svc_url}}query"
-							],
+							"host": ["{{mileposts_svc_url}}query"],
 							"query": [
 								{
 									"key": "geometry",
@@ -2077,9 +2043,7 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}query?geometry={{x}},{{y}}&geometryType=esriGeometryPoint&inSR={{inSR}}&distance={{distance}}&units=esriSRUnit_{{distance_unit}}&outFields=RouteID,ARM,SRMP,Direction,Longitude,Latitude,StateRouteNumber,RelRouteType,RelRouteQual,AheadBackInd,LRS_Date&returnGeometry=true&f=json&orderByFields=Direction DESC&outSR={{outSR}}",
-							"host": [
-								"{{mileposts_svc_url}}query"
-							],
+							"host": ["{{mileposts_svc_url}}query"],
 							"query": [
 								{
 									"key": "geometry",
@@ -2252,9 +2216,7 @@
 				},
 				"url": {
 					"raw": "{{mileposts_svc_url}}query",
-					"host": [
-						"{{mileposts_svc_url}}query"
-					]
+					"host": ["{{mileposts_svc_url}}query"]
 				}
 			},
 			"response": [
@@ -2326,9 +2288,7 @@
 						},
 						"url": {
 							"raw": "{{mileposts_svc_url}}query",
-							"host": [
-								"{{mileposts_svc_url}}query"
-							]
+							"host": ["{{mileposts_svc_url}}query"]
 						}
 					},
 					"status": "OK",
@@ -2557,9 +2517,7 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}query?outStatistics=[{\"statisticType\":\"MIN\",\"onStatisticField\":\"SRMP\",\"outStatisticFieldName\":\"MinSrmp\"},{\"statisticType\":\"MAX\",\"onStatisticField\":\"SRMP\",\"outStatisticFieldName\":\"MaxSrmp\"}]&groupByFieldsForStatistics=RouteID,Direction,AheadBackInd&orderByFields=RouteID,Direction DESC,AheadBackInd ASC,MinSrmp,MaxSrmp&resultOffset=1000&f=json",
-					"host": [
-						"{{mileposts_svc_url}}query"
-					],
+					"host": ["{{mileposts_svc_url}}query"],
 					"query": [
 						{
 							"key": "outStatistics",
@@ -2781,12 +2739,7 @@
 						"url": {
 							"raw": "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/MilepostValues/FeatureServer/3/query?outStatistics={{OutStats}}&returnGeometry=false&groupByFieldsForStatistics=RouteID,Direction&orderByFields=RouteID&f=json",
 							"protocol": "https",
-							"host": [
-								"data",
-								"wsdot",
-								"wa",
-								"gov"
-							],
+							"host": ["data", "wsdot", "wa", "gov"],
 							"path": [
 								"arcgis",
 								"rest",
@@ -3066,9 +3019,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [
-							""
-						],
+						"exec": [""],
 						"type": "text/javascript",
 						"packages": {}
 					}
@@ -3103,12 +3054,8 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}/query?f=json&where=1=1&returnCountOnly=true&returnGeometry=false&outFields=RouteID&returnDistinctValues=true",
-					"host": [
-						"{{mileposts_svc_url}}"
-					],
-					"path": [
-						"query"
-					],
+					"host": ["{{mileposts_svc_url}}"],
+					"path": ["query"],
 					"query": [
 						{
 							"key": "f",
@@ -3328,12 +3275,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}/query?f=json&where=1=1&returnCountOnly=true&returnGeometry=false&outFields=RouteID&returnDistinctValues=true",
-							"host": [
-								"{{mileposts_svc_url}}"
-							],
-							"path": [
-								"query"
-							],
+							"host": ["{{mileposts_svc_url}}"],
+							"path": ["query"],
 							"query": [
 								{
 									"key": "outStatistics",
@@ -3601,9 +3544,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [
-							""
-						],
+						"exec": [""],
 						"type": "text/javascript",
 						"packages": {}
 					}
@@ -3629,12 +3570,8 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}/query?f=json&returnCountOnly=true&returnGeometry=false&outFields=RouteID,Direction&where=RouteID='{{routeId}}' AND Direction='{{direction}}'",
-					"host": [
-						"{{mileposts_svc_url}}"
-					],
-					"path": [
-						"query"
-					],
+					"host": ["{{mileposts_svc_url}}"],
+					"path": ["query"],
 					"query": [
 						{
 							"key": "f",
@@ -3855,12 +3792,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}/query?f=json&where=RouteID='005' AND Direction='i'&returnCountOnly=true&returnGeometry=false&outFields=RouteID,Direction",
-							"host": [
-								"{{mileposts_svc_url}}"
-							],
-							"path": [
-								"query"
-							],
+							"host": ["{{mileposts_svc_url}}"],
+							"path": ["query"],
 							"query": [
 								{
 									"key": "f",
@@ -4167,9 +4100,7 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}?f=json",
-					"host": [
-						"{{mileposts_svc_url}}"
-					],
+					"host": ["{{mileposts_svc_url}}"],
 					"query": [
 						{
 							"key": "f",
@@ -4186,9 +4117,7 @@
 						"header": [],
 						"url": {
 							"raw": "{{mileposts_svc_url}}?f=json",
-							"host": [
-								"{{mileposts_svc_url}}"
-							],
+							"host": ["{{mileposts_svc_url}}"],
 							"query": [
 								{
 									"key": "f",
@@ -4302,12 +4231,8 @@
 				"header": [],
 				"url": {
 					"raw": "{{mileposts_svc_url}}/query?f=json&outFields=LRS_Date&returnGeometry=false&returnDistinctValues=true&where=1=1&orderByFields=LRS_Date&resultRecordCount=1",
-					"host": [
-						"{{mileposts_svc_url}}"
-					],
-					"path": [
-						"query"
-					],
+					"host": ["{{mileposts_svc_url}}"],
+					"path": ["query"],
 					"query": [
 						{
 							"key": "f",
@@ -4443,9 +4368,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"exec": [
-							"const queryResponse = pm.response.json();"
-						],
+						"exec": ["const queryResponse = pm.response.json();"],
 						"type": "text/javascript",
 						"packages": {}
 					}
@@ -4456,9 +4379,7 @@
 				"header": [],
 				"url": {
 					"raw": "{{lrsFeatureServerUrl}}query?layerDefs=0:RouteID = '{{routeId}}';1:RouteID='{{routeId}}'&f=json&returnM=true&outSR={{outSR}}",
-					"host": [
-						"{{lrsFeatureServerUrl}}query"
-					],
+					"host": ["{{lrsFeatureServerUrl}}query"],
 					"query": [
 						{
 							"key": "layerDefs",
@@ -4490,9 +4411,7 @@
 			"listen": "prerequest",
 			"script": {
 				"type": "text/javascript",
-				"exec": [
-					""
-				]
+				"exec": [""]
 			}
 		},
 		{

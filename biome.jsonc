@@ -7,7 +7,10 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": []
+		"ignore": [
+			"**/Mileposts Services.postman_collection.json"
+		],
+		"maxSize": 1179648
 	},
 	"formatter": {
 		"enabled": true,
