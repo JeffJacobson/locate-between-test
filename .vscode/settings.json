@@ -1,8 +1,0 @@
-{
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports.biome": "explicit",
-        // "source.removeUnused.ts": "explicit",
-        "source.fixAll.ts": "explicit"
-    }
-}
