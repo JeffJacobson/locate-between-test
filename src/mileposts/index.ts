@@ -179,16 +179,17 @@ export class Srmp implements ISrmp {
 			const [srmp, ab] = args;
 			this.milepost = srmp;
 			this.isBack = isBack(ab);
-		}
-		throw new TypeError(
-			`Improper arguments to constructor: ${JSON.stringify(args)}`,
-			{
-				cause: {
-					constructor: Srmp,
-					args,
+		} else {
+			throw new TypeError(
+				`Improper arguments to constructor: ${JSON.stringify(args)}`,
+				{
+					cause: {
+						constructor: Srmp,
+						args,
+					},
 				},
-			},
-		);
+			);
+		}
 	}
 
 	/**
