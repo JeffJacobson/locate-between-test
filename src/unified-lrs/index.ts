@@ -527,6 +527,8 @@ function getLineSegment(
 		}
 	}
 
+	// TODO: Convert ARM from miles to meters if necessary.
+
 	if (beginArm == null || endArm == null) {
 		throw new TypeError("begin and end milepost not found", {
 			cause: {
@@ -560,10 +562,16 @@ interface RouteSegmentOutput {
 	routeSegment: __esri.Geometry;
 }
 
-type RouteIdToRouteSegmentMap = Map<
-	RouteFeatureAttributes["RouteIdentifier"],
-	RouteSegmentOutput | TypeError
->;
+interface GetMilepostSegmentOutput {
+	routeId: string;
+	routeGraphic: Graphic;
+	milepostGraphics: Graphic[];
+	routeSegment: __esri.Geometry;
+	options: RouteSegmentQueryOption & {
+		outSR?: number;
+		lrsFeatureServiceUrl: string | URL;
+	};
+}
 
 /**
  * Queries the feature service milepost and route layers for features that match the given route ID and (for mileposts) SRMP and AB values,
@@ -572,39 +580,30 @@ type RouteIdToRouteSegmentMap = Map<
  * @param options - The options object containing the route segment query options, including the route ID, SRMP, AB, and direction.
  * @returns A map of route IDs to objects containing the route graphic, milepost graphics, and the route segment geometry between the two mileposts.
  */
-export async function getMilepostSegment(
+export async function* getMilepostSegment(
 	options: RouteSegmentQueryOption & {
 		outSR?: number;
 		lrsFeatureServiceUrl: string | URL;
 	},
-): Promise<RouteIdToRouteSegmentMap> {
+): AsyncGenerator<GetMilepostSegmentOutput, void, unknown> {
 	// Query the feature service milepost and route layers for features that match the given route ID and (for mileposts) SRMP and AB values.
 	const { mileposts: milepostGraphics, routes: routeGraphics } =
 		await queryFeatureService(options);
 
-	const outputMap: RouteIdToRouteSegmentMap = new Map();
-
 	// Loop through each route's graphic.
 	for (const routeGraphic of routeGraphics) {
 		// Extract the line segment.
+		if (!isRouteAttributes(routeGraphic.attributes)) {
+			throw new TypeError("Expected route graphic to have route attributes.", {
+				cause: routeGraphic,
+			});
+		}
 		const routeSegment = getLineSegment(
 			routeGraphic,
 			milepostGraphics,
 			options,
 		);
-		if (!isRouteAttributes(routeGraphic.attributes)) {
-			const error = new TypeError(
-				"Expected route graphic to have route attributes.",
-				{
-					cause: routeGraphic,
-				},
-			);
-			outputMap.set(routeGraphic.attributes.RouteIdentifier, error);
-			continue;
-		}
 		const { RouteIdentifier: routeId } = routeGraphic.attributes;
-		outputMap.set(routeId, { routeGraphic, milepostGraphics, routeSegment });
+		yield { routeId, routeGraphic, milepostGraphics, routeSegment, options };
 	}
-
-	return outputMap;
 }
