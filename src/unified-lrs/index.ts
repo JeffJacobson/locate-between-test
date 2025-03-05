@@ -375,7 +375,7 @@ async function queryFeatureService(
 	// Create the layer definitions for the query.
 	const layerDefs = createLayerDefs(options);
 	// Encode the layer definitions as a JSON string.
-	const layerDefsString = encodeURIComponent(JSON.stringify(layerDefs));
+	const layerDefsString = JSON.stringify(layerDefs);
 
 	// Create the request options for the query.
 	const requestOptions: __esri.RequestOptions = {
@@ -556,7 +556,7 @@ function getLineSegment(
 	return routeSegment;
 }
 
-interface GetMilepostSegmentOutput {
+export interface GetMilepostSegmentOutput {
 	routeId: string;
 	routeGraphic: Graphic;
 	milepostGraphics: Graphic[];
