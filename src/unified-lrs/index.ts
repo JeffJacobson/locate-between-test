@@ -163,7 +163,7 @@ enum LrsFields {
 	RouteIdentifier = "RouteIdentifier",
 }
 
-export function createLayerDefs(
+function createLayerDefs(
 	option: RouteSegmentQueryOption,
 ): [LayerDef, LayerDef] {
 	const milepostFields = Object.values(MilepostFields);
@@ -194,7 +194,7 @@ export function createLayerDefs(
  * @param url - input URL
  * @returns - Returns a new {@link URL} object with a trailing slash.
  */
-export function appendSlash(url: string | URL) {
+function appendSlash(url: string | URL) {
 	let href = url instanceof URL ? url.href : url;
 	if (!href.endsWith("/")) {
 		href += "/";
@@ -202,7 +202,7 @@ export function appendSlash(url: string | URL) {
 	return new URL(href);
 }
 
-export function hasExceededTransferLimit(
+function hasExceededTransferLimit(
 	responseData: unknown,
 ): responseData is Record<string, unknown> & { exceededTransferLimit: true } {
 	if (responseData == null || typeof responseData !== "object") {
@@ -221,7 +221,7 @@ export function hasExceededTransferLimit(
  * @param responseData input to be checked.
  * @returns Returns boolean indicating whether {@link responseData} is an object.
  */
-export function isObject(
+function isObject(
 	responseData: unknown,
 ): responseData is Record<string, object> {
 	return typeof responseData === "object" && responseData != null;
@@ -369,7 +369,7 @@ interface queryFeatureServiceOutput {
  *
  * @throws {TypeError} If the response is not in the expected format, or if no milepost or LRS results are found.
  */
-export async function queryFeatureService(
+async function queryFeatureService(
 	options: QueryFeatureServiceOptions,
 ): Promise<queryFeatureServiceOutput> {
 	// Create the layer definitions for the query.
@@ -554,12 +554,6 @@ function getLineSegment(
 		});
 	}
 	return routeSegment;
-}
-
-interface RouteSegmentOutput {
-	routeGraphic: Graphic;
-	milepostGraphics: Graphic[];
-	routeSegment: __esri.Geometry;
 }
 
 interface GetMilepostSegmentOutput {
