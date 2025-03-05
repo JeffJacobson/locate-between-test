@@ -62,7 +62,7 @@ export interface RouteFeatureSet extends __esri.FeatureSetProperties {
  * Returns true if the given object has all the properties of {@link RouteFeatureAttributes}.
  *
  * @param attributes An object to check
- * @returns True if the object has all the properties of {@linkRouteFeatureAttributes}, false otherwise.
+ * @returns True if the object has all the properties of {@link RouteFeatureAttributes}, false otherwise.
  */
 export function isRouteAttributes(
 	attributes: unknown,

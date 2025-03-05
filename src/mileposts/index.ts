@@ -39,11 +39,11 @@ export type SrmpTuple = [srmp: number, ab: AheadBackIndicator];
  * Interface that represents a State Route Mile Post (SRMP) value.
  * Can be either a regular (ahead) milepost or a back milepost.
  */
-interface ISrmp {
+export interface ISrmp {
 	/**
 	 * The SRMP value.
 	 */
-	srmp: number;
+	milepost: number;
 	/**
 	 * True if the milepost is a back milepost.
 	 */
@@ -56,11 +56,42 @@ export function isBack(backIndicator: unknown): boolean {
 		: typeof backIndicator === "string" && /B/i.test(backIndicator);
 }
 
+export function parseSrmpTuple(srmpAsString: string) {
+	/**
+	 * Matches an SRMP + AB Indicator string.
+	 *
+	 * Groups:
+	 *
+	 * 0. `mp`: Milepost
+	 * 1. `ab`: Ahead or Back indicator. Valid values
+	 *
+	 *     value       | meaning
+	 *     :----------:|:-----------------------
+	 *     `"B"`       | indicates back mileage
+	 *     `"A"`       | indicates ahead mileage
+	 *     `undefined` | 〃 |
+	 */
+	const re = /(?<mp>\d+(?:.\d+)?)(?<ab>[AB])?/;
+	const match = re.exec(srmpAsString);
+	if (!match?.groups) {
+		throw Error(
+			`"${srmpAsString}" does not match expected format: /${re.toString()}/`,
+		);
+	}
+	const { mp: mpString, ab: abString } = match.groups;
+	const milepost = Number.parseFloat(mpString);
+	return [milepost, abString.toUpperCase() === "B"] as [
+		milepost: number,
+		isBack: boolean,
+	];
+}
+
 /**
  * A State Route Mile Post (SRMP) value.
  * Can be either a regular (ahead) milepost or a back milepost.
  */
 export class Srmp implements ISrmp {
+	public milepost: number;
 	/**
 	 * True if the milepost is a back milepost.
 	 */
@@ -87,7 +118,7 @@ export class Srmp implements ISrmp {
 	 * @returns A tuple containing the SRMP value and its direction indicator.
 	 */
 	public get tuple(): SrmpTuple {
-		return [this.srmp, this.aheadOrBackIndicator];
+		return [this.milepost, this.aheadOrBackIndicator];
 	}
 
 	/**
@@ -105,19 +136,59 @@ export class Srmp implements ISrmp {
 	 * @returns A tuple containing the SRMP value and its direction indicator.
 	 */
 	public static toTuple(srmp: ISrmp): SrmpTuple {
-		return [srmp.srmp, srmp.isBack ? "B" : "A"];
+		return [srmp.milepost, srmp.isBack ? "B" : "A"];
 	}
 
+	constructor(
+		/**
+		 * The milepost as either a number or a string.
+		 */
+		srmp: string | number,
+	);
+	constructor(
+		/** The milepost value. */
+		srmp: number,
+		/** Indicates if the SRMP is back mileage. */
+		backIndicator: boolean | string,
+	);
 	/**
 	 * Creates a new SRMP value.
 	 */
 	constructor(
-		/** The milepost value. */
-		public srmp: number,
-		/** Indicates if the SRMP is back mileage. */
-		backIndicator: boolean | string,
+		// /** The milepost value. */
+		// public srmp: number,
+		// /** Indicates if the SRMP is back mileage. */
+		// backIndicator: boolean | string,
+		...args: [number, boolean | string] | [ISrmp | string | number]
 	) {
-		this.isBack = isBack(backIndicator);
+		if (args.length === 1) {
+			const [srmpInput] = args;
+			if (typeof srmpInput === "string") {
+				const [milepost, isBack] = parseSrmpTuple(srmpInput);
+				this.milepost = milepost;
+				this.isBack = isBack;
+			} else if (typeof srmpInput === "number") {
+				this.milepost = srmpInput;
+				this.isBack = false;
+			} else {
+				const { milepost, isBack } = srmpInput;
+				this.milepost = milepost;
+				this.isBack = isBack;
+			}
+		} else if (args.length === 2) {
+			const [srmp, ab] = args;
+			this.milepost = srmp;
+			this.isBack = isBack(ab);
+		}
+		throw new TypeError(
+			`Improper arguments to constructor: ${JSON.stringify(args)}`,
+			{
+				cause: {
+					constructor: Srmp,
+					args,
+				},
+			},
+		);
 	}
 
 	/**
@@ -126,7 +197,9 @@ export class Srmp implements ISrmp {
 	 * @returns A string in the format `${number}` or `${number}B`
 	 */
 	public toString() {
-		return this.isBack ? (`${this.srmp}B` as const) : (`${this.srmp}` as const);
+		return this.isBack
+			? (`${this.milepost}B` as const)
+			: (`${this.milepost}` as const);
 	}
 }
 
