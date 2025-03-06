@@ -14,14 +14,36 @@ import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import { executeMany as locateBetween } from "@arcgis/core/geometry/operators/locateBetweenOperator.js";
+import * as locateBetweenOperator from "@arcgis/core/geometry/operators/locateBetweenOperator.js";
+
+// import esriConfig from "@arcgis/core/config.js";
+// import FeatureSet from "@arcgis/core/rest/support/FeatureSet.js";
+
+// esriConfig.request.interceptors = esriConfig.request.interceptors ?? [];
+
+// esriConfig.request.interceptors?.push({
+// 	after: (response) => {
+// 		const { data } = response;
+// 		if (isLayerResponse(data)) {
+// 			const { layers } = data;
+
+// 			function layerToFeatureSet(l: LayerTypes): FeatureSet {
+// 				const featureSet = FeatureSet.fromJSON(l);
+// 				return featureSet;
+// 			}
+// 			const featureSets = layers.map(layerToFeatureSet);
+
+// 			response.data.layers = featureSets;
+// 		}
+// 	},
+// });
 
 interface ResponseSpatialReference {
 	wkid: number;
 	latestWkid?: number;
 }
 
-interface Field {
+interface ResponseField {
 	name: string;
 	alias: string;
 	type: string;
@@ -66,7 +88,7 @@ interface ResponseLayer<
 	globalIdFieldName: string;
 	geometryType: `esriGeometry${"Point" | "Polyline"}`;
 	spatialReference: ResponseSpatialReference;
-	fields: Field[];
+	fields: ResponseField[];
 	features: {
 		geometry: G;
 		attributes: A;
@@ -282,7 +304,9 @@ function toGraphics(
 	layer: MilepostResponseLayer | LrsResponseLayer<PositionWithM>,
 ): Graphic[] {
 	let graphics: Graphic[] | undefined;
-	const spatialReference = new SpatialReference(layer.spatialReference); /**
+	const spatialReference = new SpatialReference(layer.spatialReference);
+
+	/**
 	 * Converts a milepost feature to a Graphic object.
 	 *
 	 * @param feature A milepost feature from a {@link MilepostResponseLayer}.
@@ -539,11 +563,9 @@ function getLineSegment(
 		});
 	}
 
-	const routeSegment = locateBetween(
-		[routeGraphic.geometry],
-		beginArm,
-		endArm,
-	).at(0);
+	const routeSegment = locateBetweenOperator
+		.executeMany([routeGraphic.geometry], beginArm, endArm)
+		.at(0);
 	if (!routeSegment) {
 		throw new TypeError("route segment not found", {
 			cause: {
