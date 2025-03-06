@@ -2,11 +2,10 @@
 import { describe, expect, test } from "bun:test";
 import Graphic from "@arcgis/core/Graphic.js";
 import Polyline from "@arcgis/core/geometry/Polyline";
-import { env, file } from "bun";
 import { getRouteSegments } from "../src/index";
 import { Srmp } from "../src/mileposts/index.ts";
 
-env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 describe("002 from 118 to 119 has a gap. Polyline should have two paths", () => {
 	const routeId = "002";
