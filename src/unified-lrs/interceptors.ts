@@ -1,18 +1,15 @@
 import esriConfig from "@arcgis/core/config.js";
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet.js";
-import { isLayerResponse, type LayerTypes } from ".";
+import { isLayerResponse } from "./index.js";
+import { layerToFeatureSet, type ResponseAsFeatureSets } from "./conversion.js";
 
 esriConfig.request.interceptors = esriConfig.request.interceptors ?? [];
 
-function layerToFeatureSet({ id, ...l }: LayerTypes): FeatureSet {
-	const featureSet = FeatureSet.fromJSON(l);
-	// (featureSet as unknown as { id: number }).id = id;
-	// console.log(Object.keys(featureSet));
-	return featureSet;
-}
-
 export function setupInterceptors() {
+	const url = process.env.LRS_AND_MP_SERVICE_URL;
+	console.log("url", url);
+	const urlRe = new RegExp(url.replace("/", String.raw`\/`));
 	esriConfig.request.interceptors?.push({
+		urls: [urlRe],
 		after: (response) => {
 			const { data } = response;
 			if (isLayerResponse(data)) {
@@ -20,7 +17,9 @@ export function setupInterceptors() {
 
 				const featureSets = layers.map(layerToFeatureSet);
 
-				response.data.layers = featureSets;
+				response.data = Object.fromEntries(
+					featureSets,
+				) as ResponseAsFeatureSets;
 			}
 		},
 	});

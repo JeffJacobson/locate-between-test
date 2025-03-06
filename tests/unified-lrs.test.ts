@@ -1,4 +1,11 @@
 #!/usr/bin/env bun
+
+/**
+ * You must specify the .env.local file via the --env-file flag.
+ * @example
+ * bun test . --bail 1 --env-file .env.local
+ */
+
 import { expect, test, describe } from "bun:test";
 import {
 	getMilepostSegment,
@@ -7,7 +14,7 @@ import {
 import { Srmp } from "../src/mileposts";
 import { env } from "bun";
 import Polyline from "@arcgis/core/geometry/Polyline";
-import { flattenPolylinePaths, readEnvFile } from "./utils.ts";
+import { flattenPolylinePaths } from "./utils.ts";
 
 env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -15,11 +22,7 @@ const envVariableName = "LRS_AND_MP_SERVICE_URL";
 
 describe("unified-lrs", () => {
 	test("get milepost segment", async () => {
-		let url = Bun.env.LRS_AND_MP_SERVICE_URL;
-		if (!url) {
-			const envVars = await readEnvFile();
-			url = envVars.get(envVariableName);
-		}
+		const url = Bun.env.LRS_AND_MP_SERVICE_URL;
 		if (!url) {
 			throw new Error(`${envVariableName} is not defined`);
 		}

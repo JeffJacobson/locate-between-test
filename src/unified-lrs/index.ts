@@ -10,11 +10,10 @@ import {
 	type Direction,
 } from "../mileposts";
 import esriRequest from "@arcgis/core/request.js";
-import Graphic from "@arcgis/core/Graphic";
-import Point from "@arcgis/core/geometry/Point";
-import Polyline from "@arcgis/core/geometry/Polyline";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import type Graphic from "@arcgis/core/Graphic";
 import * as locateBetweenOperator from "@arcgis/core/geometry/operators/locateBetweenOperator.js";
+import { toGraphics } from "./conversion";
+import { isLayerResponse } from "./type-guards";
 
 // import { setupInterceptors } from "./interceptors";
 // setupInterceptors();
@@ -40,19 +39,19 @@ interface ResponsePoint extends ResponseGeometry {
 	y: number;
 }
 
-type Position = [number, number];
-type PositionWithM = [...Position, number];
+export type Position = [number, number];
+export type PositionWithM = [...Position, number];
 
 interface ResponsePolyline<P extends Position | PositionWithM>
 	extends ResponseGeometry {
 	paths: P[][];
 }
 
-type PossibleGeometries =
+export type PossibleGeometries =
 	| ResponsePoint
 	| ResponsePolyline<Position | PositionWithM>;
 
-interface MilepostAttributes extends Record<string, unknown> {
+export interface MilepostAttributes extends Record<string, unknown> {
 	[MilepostFields.RouteID]: string;
 	Direction: Direction;
 	SRMP: number;
@@ -60,7 +59,7 @@ interface MilepostAttributes extends Record<string, unknown> {
 	ARM: number;
 }
 
-interface ResponseLayer<
+export interface ResponseLayer<
 	G extends PossibleGeometries,
 	A extends RouteFeatureAttributes | MilepostAttributes,
 > {
@@ -76,19 +75,24 @@ interface ResponseLayer<
 	}[];
 }
 
-interface LrsResponseLayer<P extends Position | PositionWithM>
+export enum FeatureClassLayerId {
+	Milepost = 0,
+	Route = 1,
+}
+
+export interface LrsResponseLayer<P extends Position | PositionWithM>
 	extends ResponseLayer<ResponsePolyline<P>, RouteFeatureAttributes> {
-	id: 1;
+	id: FeatureClassLayerId.Route;
 	geometryType: "esriGeometryPolyline";
 }
 
-interface MilepostResponseLayer
+export interface MilepostResponseLayer
 	extends ResponseLayer<ResponsePoint, MilepostAttributes> {
-	id: 0;
+	id: FeatureClassLayerId.Milepost;
 	geometryType: "esriGeometryPoint";
 }
 
-interface LayerQueryResponse<L extends LayerTypes>
+export interface LayerQueryResponse<L extends LayerTypes>
 	extends Record<string, unknown> {
 	layers: L[];
 	exceededTransferLimit?: boolean;
@@ -186,12 +190,6 @@ function createLayerDefs(
 	return [milepostLayerDef, lrsLayerDef];
 }
 
-// type FeatureServerUrlHref = `https://${string}/arcgis/rest/services/${string}}/FeatureServer/`;
-
-// interface FeatureServerUrl extends InstanceType<URL> {
-// 	href: FeatureServerUrlHref
-// }
-
 /**
  * Appends a trailing slash to a URL if it is not already present.
  * @param url - input URL
@@ -205,144 +203,9 @@ function appendSlash(url: string | URL) {
 	return new URL(href);
 }
 
-function hasExceededTransferLimit(
-	responseData: unknown,
-): responseData is Record<string, unknown> & { exceededTransferLimit: true } {
-	if (responseData == null || typeof responseData !== "object") {
-		throw new TypeError("Expected response data to be an object.");
-	}
-	return (
-		Object.hasOwn(responseData, "exceededTransferLimit") &&
-		(responseData as { exceededTransferLimit: boolean })
-			.exceededTransferLimit === true
-	);
-}
-
-/**
- * Checks if the given object is an object.
- * Type guard that will tell TypeScript that {@link responseData} is a {@link Record<string, object>}
- * @param responseData input to be checked.
- * @returns Returns boolean indicating whether {@link responseData} is an object.
- */
-function isObject(
-	responseData: unknown,
-): responseData is Record<string, object> {
-	return typeof responseData === "object" && responseData != null;
-}
-
-/**
- * Checks if the given object is a {@link ResponseLayer} with specified geometry and attributes.
- *
- * @template G The geometry type of the layer, either a point or a polyline.
- * @template A The attributes type of the layer, either RouteFeatureAttributes or MilepostAttributes.
- * @param o The object to check.
- * @returns True if the object is a {@link ResponseLayer} with the specified geometry and attributes, false otherwise.
- */
-function isLayer<
-	G extends PossibleGeometries,
-	A extends RouteFeatureAttributes | MilepostAttributes,
->(o: unknown): o is ResponseLayer<G, A> {
-	return (
-		isObject(o) &&
-		Object.hasOwn(o, "features") &&
-		Array.isArray(o.features) &&
-		typeof o.id === "number"
-	);
-}
-
 export type LayerTypes =
 	| LrsResponseLayer<Position | PositionWithM>
 	| MilepostResponseLayer;
-
-/**
- * Checks if a given object is a {@link LayerQueryResponse}.
- *
- * @param responseData The object to check.
- * @returns Whether the given object is a {@link LayerQueryResponse}.
- */
-export function isLayerResponse<L extends LayerTypes = LayerTypes>(
-	responseData: unknown,
-): responseData is LayerQueryResponse<L> {
-	if (!isObject(responseData)) {
-		return false;
-	}
-	return (
-		Object.hasOwn(responseData, "layers") &&
-		Array.isArray(responseData.layers) &&
-		responseData.layers.every((l) => isLayer(l))
-	);
-}
-
-/**
- * Converts the given layer to an array of {@link Graphic} objects.
- *
- * @param layer A layer containing mileposts or route segments.
- * @returns An array of {@link Graphic} objects.
- *
- * @throws {TypeError} If the layer is not a milepost or route segment layer.
- */
-function toGraphics(
-	layer: MilepostResponseLayer | LrsResponseLayer<PositionWithM>,
-): Graphic[] {
-	let graphics: Graphic[] | undefined;
-	const spatialReference = new SpatialReference(layer.spatialReference);
-
-	/**
-	 * Converts a milepost feature to a Graphic object.
-	 *
-	 * @param feature A milepost feature from a {@link MilepostResponseLayer}.
-	 * @returns A Graphic object with a Point geometry and attributes that implement the {@link MilepostAttributes} interface.
-	 */
-	function toPointGraphic(
-		feature: MilepostResponseLayer["features"][number],
-	): Graphic {
-		const { geometry, attributes } = feature;
-		return new Graphic({
-			geometry: new Point({
-				...geometry,
-				hasM: true,
-				m: attributes.ARM,
-				spatialReference,
-			}),
-			attributes,
-		});
-	}
-
-	/**
-	 * Converts a feature from an LRS response layer into a Graphic object
-	 * with a Polyline geometry.
-	 *
-	 * @param feature A feature from an LRS response layer, containing geometry
-	 * and attributes.
-	 * @returns A Graphic object with a Polyline geometry, including M values
-	 * but no Z values, and the feature's attributes.
-	 */
-	function toPolylineGraphic(
-		feature: LrsResponseLayer<PositionWithM>["features"][number],
-	): Graphic {
-		const { geometry, attributes } = feature;
-		return new Graphic({
-			geometry: new Polyline({
-				...geometry,
-				hasM: true,
-				hasZ: false,
-				spatialReference,
-			}),
-			attributes,
-		});
-	}
-
-	if (layer.id === 0) {
-		graphics = layer.features.map(toPointGraphic);
-	} else if (layer.id === 1) {
-		graphics = layer.features.map(toPolylineGraphic);
-	}
-	if (!graphics) {
-		throw new TypeError("Unsupported layer type");
-	}
-
-	return graphics;
-}
 
 /**
  * Represents the options for querying the LRS feature service.

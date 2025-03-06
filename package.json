@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "bun build ./src/index.ts  --outdir ./dist --external @arcgis/core",
-		"test": "bun test --coverage --coverage-reporter lcov --bail",
+		"test": "bun test . --bail 1 --env-file .env.local --coverage --coverage-reporter lcov",
 		"lint": "biome check",
 		"prepack": "bun run build"
 	},
