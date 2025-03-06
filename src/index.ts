@@ -38,7 +38,9 @@ const ROUTE_ID_FIELD = "RouteIdentifier";
 type SuffixedRoute = `${string}${"i" | "d"}`;
 
 export async function getLrsFeatures(
-	lrsFeatureServerUrl: string | URL,
+	lrsFeatureServerUrl:
+		| string
+		| URL = "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9/",
 	...[queryMilepostParams]: Parameters<typeof queryMilepostFeatures>
 ) {
 	const milepostFeaturesResults =

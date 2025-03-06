@@ -8,38 +8,6 @@ import { Srmp } from "../src/mileposts/index.ts";
 
 env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-const lrsUrlEnvVariableName = "DEFAULT_LRS_LAYER_URL";
-
-let lrsFeatureServerUrl = env[lrsUrlEnvVariableName];
-
-async function readEnvFile() {
-	const f = file(".env.local");
-	let content: string | undefined;
-	try {
-		content = await f.text();
-	} catch (e) {
-		throw new Error(`Error reading .env.local file: ${e}`);
-	}
-	const mapping = new Map(
-		content
-			.split("\n")
-			.map((l) => l.split("=").map((s) => s.trim()) as [string, string]),
-	);
-
-	return mapping;
-}
-
-if (!lrsFeatureServerUrl) {
-	// Try to read from .env file if variable not already defined.
-	const envVars = await readEnvFile();
-	lrsFeatureServerUrl = envVars.get(lrsUrlEnvVariableName);
-	if (!lrsFeatureServerUrl) {
-		throw new Error(
-			`Missing environment variable: ${lrsUrlEnvVariableName}. Please set an environment variable named ${lrsUrlEnvVariableName} either via your OS or within an .env.local file.`,
-		);
-	}
-}
-
 describe("002 from 118 to 119 has a gap. Polyline should have two paths", () => {
 	const routeId = "002";
 	const beginSrmp = new Srmp(118, "A");
@@ -48,7 +16,7 @@ describe("002 from 118 to 119 has a gap. Polyline should have two paths", () => 
 	test("When direction is undefined, there should be two graphics returned", async () => {
 		const direction = undefined; //"i";
 
-		const segments = await getRouteSegments(lrsFeatureServerUrl, {
+		const segments = await getRouteSegments(undefined, {
 			routeId,
 			beginSrmp,
 			endSrmp,
@@ -70,7 +38,7 @@ describe("002 from 118 to 119 has a gap. Polyline should have two paths", () => 
 	test("When direction is specified, only one graphic should be returned", async () => {
 		const direction = "i";
 
-		const segments = await getRouteSegments(lrsFeatureServerUrl, {
+		const segments = await getRouteSegments(undefined, {
 			routeId,
 			beginSrmp,
 			endSrmp,
