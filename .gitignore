@@ -198,3 +198,4 @@ deleteme*
 __snapshots__
 dumped-postman-scripts
 .qodo
+!.env
