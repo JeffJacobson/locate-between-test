@@ -16,27 +16,8 @@ import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import * as locateBetweenOperator from "@arcgis/core/geometry/operators/locateBetweenOperator.js";
 
-// import esriConfig from "@arcgis/core/config.js";
-// import FeatureSet from "@arcgis/core/rest/support/FeatureSet.js";
-
-// esriConfig.request.interceptors = esriConfig.request.interceptors ?? [];
-
-// esriConfig.request.interceptors?.push({
-// 	after: (response) => {
-// 		const { data } = response;
-// 		if (isLayerResponse(data)) {
-// 			const { layers } = data;
-
-// 			function layerToFeatureSet(l: LayerTypes): FeatureSet {
-// 				const featureSet = FeatureSet.fromJSON(l);
-// 				return featureSet;
-// 			}
-// 			const featureSets = layers.map(layerToFeatureSet);
-
-// 			response.data.layers = featureSets;
-// 		}
-// 	},
-// });
+// import { setupInterceptors } from "./interceptors";
+// setupInterceptors();
 
 interface ResponseSpatialReference {
 	wkid: number;
@@ -269,7 +250,7 @@ function isLayer<
 	);
 }
 
-type LayerTypes =
+export type LayerTypes =
 	| LrsResponseLayer<Position | PositionWithM>
 	| MilepostResponseLayer;
 
@@ -279,7 +260,7 @@ type LayerTypes =
  * @param responseData The object to check.
  * @returns Whether the given object is a {@link LayerQueryResponse}.
  */
-function isLayerResponse<L extends LayerTypes = LayerTypes>(
+export function isLayerResponse<L extends LayerTypes = LayerTypes>(
 	responseData: unknown,
 ): responseData is LayerQueryResponse<L> {
 	if (!isObject(responseData)) {
@@ -421,9 +402,11 @@ async function queryFeatureService(
 
 	// Check if the response is in the expected format and throw an error if it is not.
 	if (!isLayerResponse(responseData)) {
-		throw new TypeError(
-			`Unexpected response\n${JSON.stringify(responseData, undefined, "  ")}`,
-		);
+		throw new TypeError("Unexpected response", {
+			cause: {
+				response,
+			},
+		});
 	}
 
 	// Loop through the response layers and store the milepost and LRS layers in separate variables.
