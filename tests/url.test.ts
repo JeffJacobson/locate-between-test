@@ -40,7 +40,7 @@ describe("parseUrl", () => {
 			] as const
 		).map((url) => `${url}/query` as const);
 
-		const parts: Record<string, ReturnType<typeof testUrl>> = {};
+		// const parts: Record<string, ReturnType<typeof testUrl>> = {};
 
 		for (const url of [
 			serviceWithFolderUrl,
@@ -49,12 +49,12 @@ describe("parseUrl", () => {
 			layerUrlWithoutFolder,
 			...withExtensions,
 		]) {
-			const urlParts = testUrl(url);
-			parts[url] = urlParts;
+			/* const urlParts = */ testUrl(url);
+			// parts[url] = urlParts;
 		}
 
-		console.table(
-			Object.entries(parts).map(([url, parts]) => ({ ...parts, url })),
-		);
+		// console.table(
+		// 	Object.entries(parts).map(([url, parts]) => ({ ...parts, url })),
+		// );
 	});
 });

@@ -90,9 +90,7 @@ export async function getLrsFeatures(
 		returnM: true,
 	});
 	const queryUrl = new URL("query", lrsFeatureServerUrl);
-	const results = await executeQueryJSON(queryUrl.toString(), query, {
-		verbose: true,
-	});
+	const results = await executeQueryJSON(queryUrl.toString(), query);
 	return results;
 }
 
@@ -207,9 +205,14 @@ export async function getRouteSegments(
 			if (measures.length !== 2) {
 				throw new Error("Expected exactly 2 ARMs");
 			}
-			const routePolylines = lrsFeatures.map(
-				(lrsFeature) => lrsFeature.geometry,
-			);
+			const routePolylines = lrsFeatures.map((lrsFeature) => {
+				if (lrsFeature?.geometry?.type !== "polyline") {
+					throw new TypeError("Expected results to be polyline", {
+						cause: lrsFeature,
+					});
+				}
+				return lrsFeature.geometry;
+			});
 
 			const segments = executeMany(
 				routePolylines,

@@ -357,6 +357,10 @@ export interface MilepostQueryParams {
 	outSpatialReference?: __esri.SpatialReferenceProperties;
 }
 
+export interface RouteSegementQueryParams extends MilepostQueryParams {
+	lrsFeatureServerUrl: string | URL;
+}
+
 export interface MilepostFeatureSet
 	extends Omit<__esri.FeatureSet, "features"> {
 	features: MilepostFeature[];

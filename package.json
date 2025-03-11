@@ -14,8 +14,8 @@
 		"sanitize-filename": "^1.6.3"
 	},
 	"peerDependencies": {
-		"@arcgis/core": "^4.31.6",
-		"typescript": "^5.7.3"
+		"@arcgis/core": "^4.32.8",
+		"typescript": "^5.8.2"
 	},
 	"trustedDependencies": ["@biomejs/biome"]
 }
