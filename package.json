@@ -10,11 +10,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@types/bun": "latest",
+		"@types/bun": "^1.2.8",
 		"sanitize-filename": "^1.6.3"
 	},
 	"peerDependencies": {
-		"@arcgis/core": "^4.32.8",
+		"@arcgis/core": "^4.32.9",
 		"typescript": "^5.8.2"
 	},
 	"trustedDependencies": ["@biomejs/biome"]
