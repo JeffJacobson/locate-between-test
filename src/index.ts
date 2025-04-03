@@ -6,11 +6,11 @@
  * ```
  */
 
-import Graphic from "@arcgis/core/Graphic.js";
+// import Graphic from "@arcgis/core/Graphic.js";
 import type Polyline from "@arcgis/core/geometry/Polyline.js";
-import { executeMany } from "@arcgis/core/geometry/operators/locateBetweenOperator.js";
-import { executeQueryJSON } from "@arcgis/core/rest/query.js";
-import Query from "@arcgis/core/rest/support/Query.js";
+// import { executeMany } from "@arcgis/core/geometry/operators/locateBetweenOperator.js";
+// import { executeQueryJSON } from "@arcgis/core/rest/query.js";
+// import Query from "@arcgis/core/rest/support/Query.js";
 import {
 	type AheadBackIndicator,
 	type MilepostAttributes,
@@ -18,6 +18,21 @@ import {
 	isMilepostAttributes,
 	queryMilepostFeatures,
 } from "./mileposts/index.ts";
+
+const [Graphic, locateBetweenOperator, { executeQueryJSON }, Query] =
+	await window.$arcgis.import<
+		[
+			typeof import("@arcgis/core/Graphic.js").default,
+			typeof import("@arcgis/core/geometry/operators/locateBetweenOperator.js"),
+			typeof import("@arcgis/core/rest/query.js"),
+			typeof import("@arcgis/core/rest/support/Query.js").default,
+		]
+	>([
+		"@arcgis/core/Graphic.js",
+		"@arcgis/core/geometry/operators/locateBetweenOperator.js",
+		"@arcgis/core/rest/query.js",
+		"@arcgis/core/rest/support/Query.js",
+	]);
 
 /**
  * A MilepostAttributes object with additional properties that are only present on the end of a route segment.
@@ -214,7 +229,7 @@ export async function getRouteSegments(
 				return lrsFeature.geometry;
 			});
 
-			const segments = executeMany(
+			const segments = locateBetweenOperator.executeMany(
 				routePolylines,
 				...(measures as [number, number]),
 			) as Polyline[];

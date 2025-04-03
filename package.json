@@ -1,16 +1,22 @@
 {
 	"name": "locate-between-test",
-	"module": "index.ts",
 	"type": "module",
+	"source": "src/index.html",
 	"scripts": {
+		"start": "parcel serve src/index.html",
+		"build-app": "parcel build",
 		"build": "bun build ./src/index.ts  --outdir ./dist --external @arcgis/core",
 		"test": "bun test --coverage --coverage-reporter lcov --bail",
 		"lint": "biome check",
 		"prepack": "bun run build"
 	},
 	"devDependencies": {
+		"@arcgis/core-adapter": "^4.32.13",
+		"@arcgis/map-components": "^4.32.13",
 		"@biomejs/biome": "^1.9.4",
+		"@esri/calcite-components": "^3.1.0",
 		"@types/bun": "^1.2.8",
+		"parcel": "latest",
 		"sanitize-filename": "^1.6.3"
 	},
 	"peerDependencies": {

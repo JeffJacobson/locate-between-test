@@ -79,8 +79,15 @@ export async function getBackMileposts(
 		throw new BadUrlError(url, 'must end with "query"');
 	}
 
-	const { executeQueryJSON } = await import("@arcgis/core/rest/query.js");
-	const { default: Query } = await import("@arcgis/core/rest/support/Query.js");
+	// const { executeQueryJSON } = await import("@arcgis/core/rest/query.js");
+	// const { default: Query } = await import("@arcgis/core/rest/support/Query.js");
+
+	const [{ executeQueryJSON }, Query] = await window.$arcgis.import<
+		[
+			typeof import("@arcgis/core/rest/query.js"),
+			typeof import("@arcgis/core/rest/support/Query.js").default,
+		]
+	>(["@arcgis/core/rest/query.js", "@arcgis/core/rest/support/Query.js"]);
 
 	const wheres = (direction ? [direction] : (["i", "d"] as const)).map((d) => {
 		return `AheadBackInd = 'B' AND Direction = '${d}'` as const;
