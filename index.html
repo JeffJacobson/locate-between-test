@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSDOT Route Location</title>
+    <!-- Load Calcite -->
+    <script type="module" src="https://js.arcgis.com/calcite-components/3.1.0/calcite.esm.js"></script>
+    <!-- Load the ArcGIS Maps SDK for JavaScript core API -->
+    <!-- 
+        Contitionally load either the light or dark theme depending on user's settings.
+        See https://blog.jim-nielsen.com/2019/conditional-syntax-highlighting-in-dark-mode-with-css-imports/
+         -->
+    <link media="screen and (prefers-color-scheme: light)" rel="stylesheet"
+        href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css" />
+    <link rel="stylesheet" media="screen and (prefers-color-scheme: dark)"
+        href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/dark/main.css" />
+
+    <script src="https://js.arcgis.com/4.32/init.js"
+        integrity="sha512-No89/gYBSjUTSrkIOGKcgiZ/OXm8IVA5l0nEEHOPjKNw+ttK1JeukfpbuIIjR9k1DidjvXo3HecEuPGXbP1W9A=="
+        crossorigin="anonymous"></script>
+    <!-- Load map components -->
+    <!-- Load map components -->
+    <script type="module" src="https://js.arcgis.com/map-components/4.32/arcgis-map-components.esm.js"></script>
+    <link rel="stylesheet" href="src/app/index.css">
+</head>
+
+<body class="calcite-mode-auto">
+    <!-- This is the map. It is set to be centered on WA. -->
+    <arcgis-map basemap="terrain" center="-120.85,47.295" zoom="7">
+        <arcgis-scale-bar position="bottom-left" unit="dual"></arcgis-scale-bar>
+        <arcgis-expand>
+            <div id="basemaps"></div>
+        </arcgis-expand>
+    </arcgis-map>
+    <script type="module" src="src/app/main.ts"></script>
+</body>
+
+</html>

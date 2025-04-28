@@ -24,7 +24,8 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     "types": [
-      "@arcgis/core-adapter"
+      "@arcgis/core-adapter",
+      "@arcgis/map-components"
     ]
   },
   "typeAcquisition": {
