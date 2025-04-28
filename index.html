@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WSDOT Route Location</title>
     <!-- Load Calcite -->
-    <script type="module" src="https://js.arcgis.com/calcite-components//calcite.esm.js"
-        integrity="sha512-1dWBpD0Ehyukh7No4LoGi/D6AG7rj0GfAknUbIN+t3fCaV/+4gdHPX7OrxvQFTbvFADVDwhkSLk8E8lmRSJdEg=="
-        crossorigin="anonymous"></script>
+    <script type="module" src="https://js.arcgis.com/calcite-components/3.1.0/calcite.esm.js" integrity="sha512-HVKtLac7MCpUDxNc1op/8JsdxoHuREHDyNGodETTvcyW1M9T1LA8279Wy2mTclHcV80OBP/49RAThq2sw3pBiA==" crossorigin="anonymous"></script>
     <!-- Load the ArcGIS Maps SDK for JavaScript core API -->
     <!-- 
         Contitionally load either the light or dark theme depending on user's settings.
@@ -38,9 +36,6 @@
     <!-- This is the map. It is set to be centered on WA. -->
     <arcgis-map basemap="terrain" center="-120.85,47.295" zoom="7">
         <arcgis-scale-bar position="bottom-left" unit="dual"></arcgis-scale-bar>
-        <arcgis-expand>
-            <div id="basemaps"></div>
-        </arcgis-expand>
     </arcgis-map>
     <script type="module" src="src/app/main.ts"></script>
 
