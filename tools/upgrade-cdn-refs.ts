@@ -38,7 +38,7 @@ async function updateHtml(htmlPath = defaultHtmlPath) {
 	}
 
 	// Get the @arcgis/core version number, then conver to a major.minor string.
-	const coreVersion = parseRange(packageJson.dependencies["@arcgis/core"]).at(
+	const coreVersion = parseRange(packageJson.peerDependencies["@arcgis/core"]).at(
 		0,
 	);
 	const coreVersionString = coreVersion
@@ -47,7 +47,7 @@ async function updateHtml(htmlPath = defaultHtmlPath) {
 
 	// Get the @esri/calcite-components version number, then conver to a major.minor.patch string.
 	const calciteVersion = parse(
-		packageJson.dependencies["@esri/calcite-components"],
+		packageJson.devDependencies["@esri/calcite-components"],
 	);
 	const calciteVersionString = calciteVersion
 		? `${calciteVersion.major}.${calciteVersion.minor}.${calciteVersion.patch}`

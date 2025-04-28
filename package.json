@@ -22,6 +22,7 @@
 	},
 	"trustedDependencies": ["@biomejs/biome"],
 	"dependencies": {
-		"jsdom": "^26.1.0"
+		"jsdom": "^26.1.0",
+		"semver-utils": "^1.1.4"
 	}
 }
