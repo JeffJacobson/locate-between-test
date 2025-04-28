@@ -24,8 +24,8 @@
     <script src="https://js.arcgis.com/4.32/init.js"
         integrity="sha512-No89/gYBSjUTSrkIOGKcgiZ/OXm8IVA5l0nEEHOPjKNw+ttK1JeukfpbuIIjR9k1DidjvXo3HecEuPGXbP1W9A=="
         crossorigin="anonymous"></script>
-    <!-- Load map components -->
-    <!-- Load map components -->
+
+        <!-- Load map components -->
     <script type="module" src="https://js.arcgis.com/map-components/4.32/arcgis-map-components.esm.js"
         integrity="sha512-vkEy8YVa10N2he/6WLNGbp/yNgm5FfakwKLbDmJF9Arp40iH7SBkW62at6AQW6kUjAY/fp/DSYM51H8RGEtn6w=="
         crossorigin="anonymous"></script>
@@ -34,7 +34,10 @@
 
 <body class="calcite-mode-auto">
     <!-- This is the map. It is set to be centered on WA. -->
-    <arcgis-map basemap="terrain" center="-120.85,47.295" zoom="7">
+    <arcgis-map basemap="hybrid" center="-120.85,47.295" zoom="7">
+        <arcgis-expand>
+            <arcgis-basemap-gallery></arcgis-basemap-gallery>
+        </arcgis-expand>
         <arcgis-scale-bar position="bottom-left" unit="dual"></arcgis-scale-bar>
     </arcgis-map>
     <script type="module" src="src/app/main.ts"></script>
