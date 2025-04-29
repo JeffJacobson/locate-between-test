@@ -25,7 +25,8 @@
     "noPropertyAccessFromIndexSignature": false,
     "types": [
       "@arcgis/core-adapter",
-      "@arcgis/map-components"
+      "@arcgis/map-components",
+      "@wsdot/types_arcgis-core-extra"
     ]
   },
   "typeAcquisition": {

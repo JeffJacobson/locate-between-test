@@ -4,6 +4,7 @@
     "": {
       "name": "locate-between-test",
       "dependencies": {
+        "@wsdot/types_arcgis-core-extra": "github:WSDOT-GIS/types_arcgis-core-adapter",
         "jsdom": "^26.1.0",
         "semver-utils": "^1.1.4",
       },
@@ -226,6 +227,8 @@
     "@vaadin/vaadin-usage-statistics": ["@vaadin/vaadin-usage-statistics@2.1.3", "", { "dependencies": { "@vaadin/vaadin-development-mode-detector": "^2.0.0" } }, "sha512-8r4TNknD7OJQADe3VygeofFR7UNAXZ2/jjBFP5dgI8+2uMfnuGYgbuHivasKr9WSQ64sPej6m8rDoM1uSllXjQ=="],
 
     "@webcomponents/shadycss": ["@webcomponents/shadycss@1.11.2", "", {}, "sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw=="],
+
+    "@wsdot/types_arcgis-core-extra": ["@wsdot/types_arcgis-core-extra@github:WSDOT-GIS/types_arcgis-core-adapter#abe4e73", { "peerDependencies": { "@arcgis/core": "^4.32", "typescript": "^5" } }, "WSDOT-GIS-types_arcgis-core-adapter-abe4e73"],
 
     "@zip.js/zip.js": ["@zip.js/zip.js@2.7.57", "", {}, "sha512-BtonQ1/jDnGiMed6OkV6rZYW78gLmLswkHOzyMrMb+CAR7CZO8phOHO6c2qw6qb1g1betN7kwEHhhZk30dv+NA=="],
 

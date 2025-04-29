@@ -1,14 +1,9 @@
 import type { LrsDirection } from "../lrs.ts";
 
-// import { executeQueryJSON } from "@arcgis/core/rest/query.js";
-// import Query from "@arcgis/core/rest/support/Query.js";
-
-const [{ executeQueryJSON }, Query] = await window.$arcgis.import<
-	[
-		typeof import("@arcgis/core/rest/query.js"),
-		typeof import("@arcgis/core/rest/support/Query.js").default,
-	]
->(["@arcgis/core/rest/query.js", "@arcgis/core/rest/support/Query.js"]);
+const [{ executeQueryJSON }, Query] = await $arcgis.import([
+	"@arcgis/core/rest/query.js",
+	"@arcgis/core/rest/support/Query.js",
+] as const);
 
 /**
  * The default URL of the State Route Mile Post (SRMP) service.

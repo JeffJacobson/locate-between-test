@@ -22,6 +22,7 @@
 	},
 	"trustedDependencies": ["@biomejs/biome"],
 	"dependencies": {
+		"@wsdot/types_arcgis-core-extra": "github:WSDOT-GIS/types_arcgis-core-adapter",
 		"jsdom": "^26.1.0",
 		"semver-utils": "^1.1.4"
 	}
