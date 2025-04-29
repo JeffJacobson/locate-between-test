@@ -19,3 +19,9 @@ const setupMapLayers = async (ev: ArcgisMapCustomEvent<void>) => {
 	map.add(milepostsLayer);
 };
 mapElement.addEventListener("arcgisViewReadyChange", setupMapLayers);
+
+document.body
+	.querySelector<HTMLFormElement>("form#inputMilepostForm")
+	?.addEventListener("submit", (ev) => {
+		ev.preventDefault();
+	});

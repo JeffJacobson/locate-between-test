@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WSDOT Route Location</title>
     <!-- Load Calcite -->
-    <script type="module" src="https://js.arcgis.com/calcite-components/3.1.0/calcite.esm.js" integrity="sha512-HVKtLac7MCpUDxNc1op/8JsdxoHuREHDyNGodETTvcyW1M9T1LA8279Wy2mTclHcV80OBP/49RAThq2sw3pBiA==" crossorigin="anonymous"></script>
+    <script type="module" src="https://js.arcgis.com/calcite-components/3.1.0/calcite.esm.js"
+        integrity="sha512-HVKtLac7MCpUDxNc1op/8JsdxoHuREHDyNGodETTvcyW1M9T1LA8279Wy2mTclHcV80OBP/49RAThq2sw3pBiA=="
+        crossorigin="anonymous"></script>
     <!-- Load the ArcGIS Maps SDK for JavaScript core API -->
     <!-- 
         Contitionally load either the light or dark theme depending on user's settings.
@@ -25,7 +27,7 @@
         integrity="sha512-No89/gYBSjUTSrkIOGKcgiZ/OXm8IVA5l0nEEHOPjKNw+ttK1JeukfpbuIIjR9k1DidjvXo3HecEuPGXbP1W9A=="
         crossorigin="anonymous"></script>
 
-        <!-- Load map components -->
+    <!-- Load map components -->
     <script type="module" src="https://js.arcgis.com/map-components/4.32/arcgis-map-components.esm.js"
         integrity="sha512-vkEy8YVa10N2he/6WLNGbp/yNgm5FfakwKLbDmJF9Arp40iH7SBkW62at6AQW6kUjAY/fp/DSYM51H8RGEtn6w=="
         crossorigin="anonymous"></script>
@@ -35,11 +37,28 @@
 <body class="calcite-mode-auto">
     <!-- This is the map. It is set to be centered on WA. -->
     <arcgis-map basemap="hybrid" center="-120.85,47.295" zoom="7">
-        <arcgis-expand>
+        <arcgis-expand label="Basemap">
             <arcgis-basemap-gallery></arcgis-basemap-gallery>
         </arcgis-expand>
-        <arcgis-expand expanded>
+        <arcgis-expand>
             <arcgis-layer-list></arcgis-layer-list>
+        </arcgis-expand>
+        <arcgis-expand position="top-leading" expanded label="Milepost">
+            <arcgis-placement position="top-leading">
+                <form name="milepost" id="inputMilepostForm" action="#">
+                    <label>Route ID
+                        <input type="text" name="route" placeholder="Route ID" id="routeIdBox"
+                            pattern="[0-9]{3}([0-9A-Za-z]{2}[0-9A-Za-z]{0,6})?[id]" required
+                            title="Enter a valid WSDOT State Route ID. A three-digit number (pad with leading zeroes if necessary)" />
+                    </label>
+                    <label>Milepost
+                        <input type="text" name="milepost" placeholder="Milepost" id="milepostBox"
+                            pattern="\d+(\.\d+)?[AB]?" required
+                            title='Enter a State Route Milepost (SRMP) numerical value. Append a "B" to indicate back mileage' />
+                    </label>
+                    <button type="submit">Locate</button>
+                </form>
+            </arcgis-placement>
         </arcgis-expand>
         <arcgis-scale-bar position="bottom-left" unit="dual"></arcgis-scale-bar>
     </arcgis-map>

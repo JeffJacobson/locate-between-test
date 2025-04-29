@@ -3,6 +3,7 @@
 	"type": "module",
 	"source": "src/index.html",
 	"scripts": {
+		"dev": "vite",
 		"build": "bun build ./src/index.ts  --outdir ./dist --external @arcgis/core",
 		"test": "bun test --coverage --coverage-reporter lcov --bail",
 		"lint": "biome check",
