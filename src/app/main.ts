@@ -28,6 +28,19 @@ document.body
 	});
 
 const loadRouteOptions = async () => {
+	const routeIdBox = document.body.querySelector<HTMLCalciteInputTextElement>("#routeIdBox");
+	if (!routeIdBox) {
+		throw new Error("Could not find route ID input element");
+	}
+	await routeIdBox.componentOnReady();
+
+	const innerInput = routeIdBox.shadowRoot?.querySelector("input");
+	if (innerInput) {
+		innerInput.setAttribute("list", "routeIdDatalist");
+	}
+
+	/* __PURE__ */ console.debug("inner input element", innerInput)
+
 	const dataList = document.body.querySelector<HTMLDataListElement>(
 		"datalist#routeIdDatalist",
 	);

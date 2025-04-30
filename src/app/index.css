@@ -7,9 +7,3 @@ arcgis-map {
     display: block;
     height: 100vh;
 }
-
-#inputMilepostForm {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
