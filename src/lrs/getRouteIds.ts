@@ -118,6 +118,8 @@ export async function getRoutes(
 		return featureSet.features.map((f) => f.attributes.RouteIdentifier);
 	});
 
-	const routes = (await Promise.all(promises)).flat();
+	// Get the list of routes. Put it into a Set to remove duplicates.
+	// Put it back into an array so it can be sorted.
+	const routes = [...new Set((await Promise.all(promises)).flat())].sort();
 	return routes;
 }

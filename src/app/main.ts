@@ -1,4 +1,5 @@
 import type { ArcgisMapCustomEvent } from "@arcgis/map-components";
+import { getRoutes } from "../lrs/getRouteIds.ts";
 
 const mapElement = document.querySelector("arcgis-map");
 
@@ -25,3 +26,31 @@ document.body
 	?.addEventListener("submit", (ev) => {
 		ev.preventDefault();
 	});
+
+const loadRouteOptions = async () => {
+	const dataList = document.body.querySelector<HTMLDataListElement>(
+		"datalist#routeIdDatalist",
+	);
+	if (!dataList) {
+		throw new Error("Could not find datalist");
+	}
+	const routes = await getRoutes();
+	const routeToOption = (route: string): HTMLOptionElement => {
+		const routeId = route.substring(0, route.length - 1);
+		const direction = route[route.length - 1];
+		const option = document.createElement("option");
+		option.classList.add(`direction-${direction}`);
+		if (routeId.length === 3) {
+			option.classList.add("mainline");
+		}
+		option.text = route;
+		option.value = route;
+		// option.title = `${routeId} (${direction})`;
+		// option.label = `${routeId} (${direction})`;
+		return option;
+	};
+	const options = routes.map(routeToOption);
+	dataList.append(...options);
+}
+
+loadRouteOptions();

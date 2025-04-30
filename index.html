@@ -43,21 +43,34 @@
         <arcgis-expand>
             <arcgis-layer-list></arcgis-layer-list>
         </arcgis-expand>
-        <arcgis-expand position="top-leading" expanded label="Milepost">
+        <arcgis-expand position="top-leading" expanded label="Milepost" expand-icon="pin-plus">
             <arcgis-placement position="top-leading">
-                <form name="milepost" id="inputMilepostForm" action="#">
-                    <label>Route ID
-                        <input type="text" name="route" placeholder="Route ID" id="routeIdBox"
-                            pattern="[0-9]{3}([0-9A-Za-z]{2}[0-9A-Za-z]{0,6})?[id]" required
-                            title="Enter a valid WSDOT State Route ID. A three-digit number (pad with leading zeroes if necessary)" />
-                    </label>
-                    <label>Milepost
-                        <input type="text" name="milepost" placeholder="Milepost" id="milepostBox"
-                            pattern="\d+(\.\d+)?[AB]?" required
-                            title='Enter a State Route Milepost (SRMP) numerical value. Append a "B" to indicate back mileage' />
-                    </label>
-                    <button type="submit">Locate</button>
-                </form>
+                <calcite-panel heading="Locate a milepost">
+                    <calcite-block expanded label="Locate a milepost">
+                        <form name="milepost" id="inputMilepostForm" action="#">
+                            <label>Route ID
+                                <input type="text" name="route" placeholder="Route ID" id="routeIdBox"
+                                    pattern="[0-9]{3}([0-9A-Za-z]{2}[0-9A-Za-z]{0,6})?[id]" required
+                                    list="routeIdDatalist"
+                                    title="Enter a valid WSDOT State Route ID. A three-digit number (pad with leading zeroes if necessary)" />
+
+                                <datalist id="routeIdDatalist">
+
+                                </datalist>
+                            </label>
+                            <label>Milepost
+                                <input type="text" name="milepost" placeholder="Milepost" id="milepostBox"
+                                    pattern="\d+(\.\d+)?[AB]?" required
+                                    title='Enter a State Route Milepost (SRMP) numerical value. Append a "B" to indicate back mileage' />
+                            </label>
+                        </form>
+                    </calcite-block>
+                    <!-- <calcite-action title="Clear all input fields" id="resetFormAction" slot="header-actions-end"
+                        icon="reset" text="Reset form" label="Reset form"></calcite-action> -->
+                    <calcite-button form="inputMilepostForm" icon-start="reset" label="Reset" type="reset"
+                        slot="header-actions-end"></calcite-button>
+                    <calcite-button type="submit" slot="content-bottom" form="inputMilepostForm" width="full">Locate</calcite-button>
+                </calcite-panel>
             </arcgis-placement>
         </arcgis-expand>
         <arcgis-scale-bar position="bottom-left" unit="dual"></arcgis-scale-bar>
