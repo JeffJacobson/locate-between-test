@@ -1,3 +1,5 @@
+export const defaultLrsRoutesUrl = "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9/";
+
 /**
  * An error that is thrown when a URL does not match the expected format.
  */

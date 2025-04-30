@@ -15,6 +15,7 @@ import {
 	isMilepostAttributes,
 	queryMilepostFeatures,
 } from "./mileposts/index.ts";
+import { defaultLrsRoutesUrl } from "./url.ts";
 
 const [Graphic, locateBetweenOperator, { executeQueryJSON }, Query] =
 	await $arcgis.import([
@@ -42,10 +43,11 @@ const ROUTE_ID_FIELD = "RouteIdentifier";
 
 type SuffixedRoute = `${string}${"i" | "d"}`;
 
+
 export async function getLrsFeatures(
 	lrsFeatureServerUrl:
 		| string
-		| URL = "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9/",
+		| URL = defaultLrsRoutesUrl,
 	...[queryMilepostParams]: Parameters<typeof queryMilepostFeatures>
 ) {
 	const milepostFeaturesResults =
