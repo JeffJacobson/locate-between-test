@@ -17,13 +17,36 @@ import {
 } from "./mileposts/index.ts";
 import { defaultLrsRoutesUrl } from "./url.ts";
 
-const [Graphic, locateBetweenOperator, { executeQueryJSON }, Query] =
-	await $arcgis.import([
-		"@arcgis/core/Graphic.js",
-		"@arcgis/core/geometry/operators/locateBetweenOperator.js",
-		"@arcgis/core/rest/query.js",
-		"@arcgis/core/rest/support/Query.js",
+let locateBetweenOperator: typeof import(
+	"@arcgis/core/geometry/operators/locateBetweenOperator.js"
+);
+let Graphic: typeof import("@arcgis/core/Graphic.js").default;
+let executeQueryJSON: typeof import(
+	"@arcgis/core/rest/query.js"
+).executeQueryJSON;
+let Query: typeof import("@arcgis/core/rest/support/Query.js").default;
+
+try {
+	[Graphic, locateBetweenOperator, { executeQueryJSON }, Query] =
+		await $arcgis.import([
+			"@arcgis/core/Graphic.js",
+			"@arcgis/core/geometry/operators/locateBetweenOperator.js",
+			"@arcgis/core/rest/query.js",
+			"@arcgis/core/rest/support/Query.js",
+		] as const);
+} catch {
+	[
+		{ default: Graphic },
+		locateBetweenOperator,
+		{ executeQueryJSON },
+		{ default: Query },
+	] = await Promise.all([
+		import("@arcgis/core/Graphic.js"),
+		import("@arcgis/core/geometry/operators/locateBetweenOperator.js"),
+		import("@arcgis/core/rest/query.js"),
+		import("@arcgis/core/rest/support/Query.js"),
 	] as const);
+}
 
 /**
  * A MilepostAttributes object with additional properties that are only present on the end of a route segment.
@@ -43,11 +66,8 @@ const ROUTE_ID_FIELD = "RouteIdentifier";
 
 type SuffixedRoute = `${string}${"i" | "d"}`;
 
-
 export async function getLrsFeatures(
-	lrsFeatureServerUrl:
-		| string
-		| URL = defaultLrsRoutesUrl,
+	lrsFeatureServerUrl: string | URL = defaultLrsRoutesUrl,
 	...[queryMilepostParams]: Parameters<typeof queryMilepostFeatures>
 ) {
 	const milepostFeaturesResults =

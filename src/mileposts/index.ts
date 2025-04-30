@@ -1,15 +1,28 @@
 import type { LrsDirection } from "../lrs.ts";
 
-const [{ executeQueryJSON }, Query] = await $arcgis.import([
-	"@arcgis/core/rest/query.js",
-	"@arcgis/core/rest/support/Query.js",
-] as const);
+let executeQueryJSON: typeof import(
+	"@arcgis/core/rest/query.js"
+).executeQueryJSON;
+
+let Query: typeof import("@arcgis/core/rest/support/Query.js").default;
+
+try {
+	[{ executeQueryJSON }, Query] = await $arcgis.import([
+		"@arcgis/core/rest/query.js",
+		"@arcgis/core/rest/support/Query.js",
+	] as const);
+} catch (e) {
+	[{ executeQueryJSON }, { default: Query }] = await Promise.all([
+		import("@arcgis/core/rest/query.js"),
+		import("@arcgis/core/rest/support/Query.js"),
+	] as const);
+}
 
 /**
  * The default URL of the State Route Mile Post (SRMP) service.
  */
 export const defaultMilepostsServiceUrl = new URL(
-	"https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/",
+	"https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/"
 );
 
 /**
@@ -17,7 +30,7 @@ export const defaultMilepostsServiceUrl = new URL(
  */
 export const milepostsServiceQueryUrl = new URL(
 	"query",
-	defaultMilepostsServiceUrl,
+	defaultMilepostsServiceUrl
 );
 
 /**
@@ -78,7 +91,7 @@ export function parseSrmpTuple(srmpAsString: string) {
 	const match = re.exec(srmpAsString);
 	if (!match?.groups) {
 		throw Error(
-			`"${srmpAsString}" does not match expected format: /${re.toString()}/`,
+			`"${srmpAsString}" does not match expected format: /${re.toString()}/`
 		);
 	}
 	const { mp: mpString, ab: abString } = match.groups;
@@ -146,13 +159,13 @@ export class Srmp implements ISrmp {
 		/**
 		 * The milepost as either a number or a string.
 		 */
-		srmp: string | number,
+		srmp: string | number
 	);
 	constructor(
 		/** The milepost value. */
 		srmp: number,
 		/** Indicates if the SRMP is back mileage. */
-		backIndicator: boolean | string,
+		backIndicator: boolean | string
 	);
 	/**
 	 * Creates a new SRMP value.
@@ -190,7 +203,7 @@ export class Srmp implements ISrmp {
 						constructor: Srmp,
 						args,
 					},
-				},
+				}
 			);
 		}
 	}
@@ -314,7 +327,7 @@ export type MilepostFeature = Omit<__esri.Graphic, "attributes"> & {
  * @returns True if the object has all the properties of MilepostAttributes, false otherwise.
  */
 export function isMilepostAttributes(
-	attributes: unknown,
+	attributes: unknown
 ): attributes is MilepostAttributes {
 	return (
 		typeof attributes === "object" &&
@@ -322,7 +335,7 @@ export function isMilepostAttributes(
 		(["SRMP", "AheadBackInd", "RouteID"] as const).every(
 			(key) =>
 				Object.hasOwn(attributes, key) &&
-				(attributes as Record<string, unknown>)[key] != null,
+				(attributes as Record<string, unknown>)[key] != null
 		)
 	);
 }
@@ -370,7 +383,7 @@ export interface MilepostFeatureSet
 }
 
 export async function queryMilepostFeatures(
-	params: MilepostQueryParams,
+	params: MilepostQueryParams
 ): Promise<MilepostFeatureSet> {
 	const { routeId, beginSrmp, endSrmp, direction, outSpatialReference } =
 		params;
@@ -414,7 +427,7 @@ export async function queryMilepostFeatures(
 	});
 	const results = (await executeQueryJSON(
 		milepostsServiceQueryUrl.toString(),
-		query,
+		query
 	)) as MilepostFeatureSet;
 	return results;
 }
