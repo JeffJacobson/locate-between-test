@@ -1,6 +1,13 @@
 export const defaultLrsRoutesUrl = "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9/";
 
 /**
+ * The default URL of the State Route Mile Post (SRMP) service.
+ */
+export const defaultMilepostsServiceUrl = new URL(
+	"https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/"
+);
+
+/**
  * An error that is thrown when a URL does not match the expected format.
  */
 export class BadUrlError extends Error {

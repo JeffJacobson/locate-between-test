@@ -1,5 +1,5 @@
 /**
- * The LRS only has two directions, "i" for inbound and "d" for outbound.
+ * The LRS only has two directions, "i" for increase and "d" for decrease.
  */
 export type LrsDirection = "i" | "d";
 

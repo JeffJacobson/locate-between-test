@@ -1,4 +1,5 @@
 import type { LrsDirection } from "../lrs.ts";
+import { defaultMilepostsServiceUrl } from "../url.ts";
 
 let executeQueryJSON: typeof import(
 	"@arcgis/core/rest/query.js"
@@ -17,13 +18,6 @@ try {
 		import("@arcgis/core/rest/support/Query.js"),
 	] as const);
 }
-
-/**
- * The default URL of the State Route Mile Post (SRMP) service.
- */
-export const defaultMilepostsServiceUrl = new URL(
-	"https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/"
-);
 
 /**
  * The URL of the SRMP service with the query operation.
